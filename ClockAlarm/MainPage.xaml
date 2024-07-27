@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClockAlarm.MainPage">
+    <StackLayout Padding="30">
+        <Label Text="Set New Alarm" FontSize="24" HorizontalOptions="Center" />
+
+        <TimePicker x:Name="alarmTimePicker" 
+                    Time="07:00"
+                    Format="t"
+                    HorizontalOptions="Center" />
+
+        <Button Text="Add Alarm" 
+                Clicked="OnAddAlarmClicked"
+                HorizontalOptions="Center" 
+                Margin="0,20,0,0" />
+
+        <Label Text="Alarms" FontSize="24" HorizontalOptions="Center" Margin="0,20,0,0" />
+
+        <CollectionView x:Name="alarmsCollectionView" 
+                        ItemsSource="{Binding Alarms}" 
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Orientation="Horizontal" Padding="10">
+                        <Label Text="{Binding Time}" VerticalOptions="Center" />
+                        <Switch IsToggled="{Binding IsEnabled}" VerticalOptions="Center" />
+                        <Button Text="Delete" Clicked="OnDeleteAlarmClicked" CommandParameter="{Binding .}" />
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+</ContentPage>
