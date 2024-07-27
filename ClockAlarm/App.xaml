@@ -1,14 +1,48 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:ClockAlarm"
              x:Class="ClockAlarm.App">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
-                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+            <!-- Colors -->
+            <Color x:Key="BackgroundColor">#000000</Color>
+            <!-- Black -->
+            <Color x:Key="PrimaryTextColor">#FFFFFF</Color>
+            <!-- White -->
+            <Color x:Key="ButtonColorGreen">#00FF00</Color>
+            <!-- Green -->
+            <Color x:Key="ButtonColorRed">#FF0000</Color>
+            <!-- Red -->
+            <Color x:Key="AccentColor">#FFFFFF</Color>
+            <!-- White for accents -->
+
+            <!-- Styles -->
+            <Style TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource PrimaryTextColor}" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="CornerRadius" Value="20" />
+                <Setter Property="TextColor" Value="{StaticResource BackgroundColor}" />
+            </Style>
+            <Style TargetType="Button" x:Key="GreenButtonStyle">
+                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColorGreen}" />
+            </Style>
+            <Style TargetType="Button" x:Key="RedButtonStyle">
+                <Setter Property="BackgroundColor" Value="{StaticResource ButtonColorRed}" />
+            </Style>
+            <Style TargetType="TimePicker">
+                <Setter Property="TextColor" Value="{StaticResource PrimaryTextColor}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
+            </Style>
+            <Style TargetType="Switch">
+                <Setter Property="OnColor" Value="{StaticResource ButtonColorGreen}" />
+            </Style>
+            <Style TargetType="CollectionView">
+                <Setter Property="BackgroundColor" Value="{StaticResource BackgroundColor}" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

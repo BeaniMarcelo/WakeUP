@@ -1,22 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ClockAlarm.MainPage">
+             x:Class="ClockAlarm.MainPage"
+             Title="WakeUP Alarm App">
     <StackLayout Padding="30">
         <Label Text="Set New Alarm" FontSize="24" HorizontalOptions="Center" />
-
         <TimePicker x:Name="alarmTimePicker" 
                     Time="07:00"
                     Format="t"
                     HorizontalOptions="Center" />
-
         <Button Text="Add Alarm" 
                 Clicked="OnAddAlarmClicked"
                 HorizontalOptions="Center" 
-                Margin="0,20,0,0" />
-
+                Margin="0,20,0,0"
+                Style="{StaticResource GreenButtonStyle}" />
         <Label Text="Alarms" FontSize="24" HorizontalOptions="Center" Margin="0,20,0,0" />
-
         <CollectionView x:Name="alarmsCollectionView" 
                         ItemsSource="{Binding Alarms}" 
                         SelectionMode="None">
@@ -25,7 +23,7 @@
                     <StackLayout Orientation="Horizontal" Padding="10">
                         <Label Text="{Binding Time}" VerticalOptions="Center" />
                         <Switch IsToggled="{Binding IsEnabled}" VerticalOptions="Center" />
-                        <Button Text="Delete" Clicked="OnDeleteAlarmClicked" CommandParameter="{Binding .}" />
+                        <Button Text="Delete" Clicked="OnDeleteAlarmClicked" CommandParameter="{Binding .}" Style="{StaticResource RedButtonStyle}" />
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

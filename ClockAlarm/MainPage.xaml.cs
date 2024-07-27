@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using ClockAlarm.Models;
 using Microsoft.Maui.Controls;
 #if ANDROID
 using Android.Media;
@@ -11,57 +13,80 @@ namespace ClockAlarm
 {
     public partial class MainPage : ContentPage
     {
-        private DateTime? alarmTime;
+        public ObservableCollection<Alarm> Alarms { get; set; }
+
+        #if ANDROID
+        private MediaPlayer _mediaPlayer;
+        #endif
 
         public MainPage()
         {
             InitializeComponent();
+            Alarms = new ObservableCollection<Alarm>();
+            BindingContext = this;
         }
 
-        private void OnSetAlarmClicked(object sender, EventArgs e)
+        [Obsolete]
+        private void OnAddAlarmClicked(object sender, EventArgs e)
         {
-            alarmTime = DateTime.Today.Add(alarmTimePicker.Time);
-            if (alarmTime <= DateTime.Now)
+            var newAlarm = new Alarm
             {
-                alarmTime = alarmTime.Value.AddDays(1);
+                Time = DateTime.Today.Add(alarmTimePicker.Time),
+                IsEnabled = true
+            };
+
+            if (newAlarm.Time <= DateTime.Now)
+            {
+                newAlarm.Time = newAlarm.Time.AddDays(1);
             }
 
-            DisplayAlert("Alarm Set", $"Alarm set for {alarmTime.Value.ToShortTimeString()}", "OK");
-            Device.StartTimer(TimeSpan.FromSeconds(1), CheckAlarm);
+            Alarms.Add(newAlarm);
+            Device.StartTimer(TimeSpan.FromSeconds(1), () => CheckAlarm(newAlarm));
         }
 
-        private void OnCancelAlarmClicked(object sender, EventArgs e)
+        private void OnDeleteAlarmClicked(object sender, EventArgs e)
         {
-            alarmTime = null;
-            DisplayAlert("Alarm Canceled", "Alarm has been canceled", "OK");
-        }
-
-        private bool CheckAlarm()
-        {
-            if (alarmTime.HasValue && DateTime.Now >= alarmTime.Value)
+            var button = sender as Button;
+            var alarm = button?.CommandParameter as Alarm;
+            if (alarm != null)
             {
-                alarmTime = null;
+                Alarms.Remove(alarm);
+            }
+        }
+
+        private bool CheckAlarm(Alarm alarm)
+        {
+            if (alarm.IsEnabled && DateTime.Now >= alarm.Time)
+            {
+                alarm.IsEnabled = false; // Disable the alarm after it triggers
                 TriggerAlarm();
                 return false; // Stop the timer
             }
             return true; // Continue checking
         }
 
-        private void TriggerAlarm()
+        private async void TriggerAlarm()
         {
-            // Trigger a notification or sound
-            DisplayAlert("Alarm", "Time to wake up!", "OK");
-
             #if ANDROID
-                        var _mediaPlayer = MediaPlayer.Create(global::Android.App.Application.Context, RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
-            _mediaPlayer.Start();
+            _mediaPlayer = MediaPlayer.Create(global::Android.App.Application.Context, RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
+            _mediaPlayer?.Start();
             #elif IOS
-                        // iOS implementation (using AVFoundation to play a sound)
+            // iOS implementation (using AVFoundation to play a sound)
             // This part needs to be implemented as per iOS requirements
             // Example:
             // var alarmSound = new NSUrl("DefaultAlarmSound.aiff");
             // var audioPlayer = AVAudioPlayer.FromUrl(alarmSound);
             // audioPlayer.Play();
+            #endif
+
+            // Show the alert and wait for user to dismiss it
+            await DisplayAlert("Alarm", "Time to wake up!", "OK");
+
+            // Stop the media player after the alert is dismissed
+             #if ANDROID
+            _mediaPlayer?.Stop();
+            _mediaPlayer?.Release();
+            _mediaPlayer = null;
             #endif
         }
     }

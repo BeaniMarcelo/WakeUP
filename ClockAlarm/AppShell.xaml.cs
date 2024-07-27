@@ -1,4 +1,6 @@
-﻿namespace ClockAlarm
+﻿using Microsoft.Maui.Controls;
+
+namespace ClockAlarm
 {
     public partial class AppShell : Shell
     {
