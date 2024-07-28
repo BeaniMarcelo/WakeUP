@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using ClockAlarm.Models;
 using Microsoft.Maui.Controls;
 #if ANDROID
@@ -15,10 +16,6 @@ namespace ClockAlarm
     {
         public ObservableCollection<Alarm> Alarms { get; set; }
 
-        #if ANDROID
-        private MediaPlayer _mediaPlayer;
-        #endif
-
         public MainPage()
         {
             InitializeComponent();
@@ -32,8 +29,18 @@ namespace ClockAlarm
             var newAlarm = new Alarm
             {
                 Time = DateTime.Today.Add(alarmTimePicker.Time),
-                IsEnabled = true
+                IsEnabled = true,
+                DaysOfWeek = new List<string>() // Add selected days of the week here
             };
+
+            // Add the selected days to the alarm
+            if (mondayButton.BackgroundColor == Colors.Green) newAlarm.DaysOfWeek.Add("Monday");
+            if (tuesdayButton.BackgroundColor == Colors.Green) newAlarm.DaysOfWeek.Add("Tuesday");
+            if (wednesdayButton.BackgroundColor == Colors.Green) newAlarm.DaysOfWeek.Add("Wednesday");
+            if (thursdayButton.BackgroundColor == Colors.Green) newAlarm.DaysOfWeek.Add("Thursday");
+            if (fridayButton.BackgroundColor == Colors.Green) newAlarm.DaysOfWeek.Add("Friday");
+            if (saturdayButton.BackgroundColor == Colors.Green) newAlarm.DaysOfWeek.Add("Saturday");
+            if (sundayButton.BackgroundColor == Colors.Green) newAlarm.DaysOfWeek.Add("Sunday");
 
             if (newAlarm.Time <= DateTime.Now)
             {
@@ -65,29 +72,38 @@ namespace ClockAlarm
             return true; // Continue checking
         }
 
-        private async void TriggerAlarm()
+        private void TriggerAlarm()
         {
-            #if ANDROID
-            _mediaPlayer = MediaPlayer.Create(global::Android.App.Application.Context, RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
+            // Trigger a notification or sound
+            DisplayAlert("Alarm", "Time to wake up!", "OK");
+
+#if ANDROID
+            var _mediaPlayer = MediaPlayer.Create(global::Android.App.Application.Context, RingtoneManager.GetDefaultUri(RingtoneType.Alarm));
             _mediaPlayer?.Start();
-            #elif IOS
+#elif IOS
             // iOS implementation (using AVFoundation to play a sound)
             // This part needs to be implemented as per iOS requirements
             // Example:
             // var alarmSound = new NSUrl("DefaultAlarmSound.aiff");
             // var audioPlayer = AVAudioPlayer.FromUrl(alarmSound);
             // audioPlayer.Play();
-            #endif
+#endif
+        }
 
-            // Show the alert and wait for user to dismiss it
-            await DisplayAlert("Alarm", "Time to wake up!", "OK");
-
-            // Stop the media player after the alert is dismissed
-             #if ANDROID
-            _mediaPlayer?.Stop();
-            _mediaPlayer?.Release();
-            _mediaPlayer = null;
-            #endif
+        private void OnDaySelected(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                if (button.BackgroundColor == Colors.Black)
+                {
+                    button.BackgroundColor = Colors.Green;
+                }
+                else
+                {
+                    button.BackgroundColor = Colors.Black;
+                }
+            }
         }
     }
 }

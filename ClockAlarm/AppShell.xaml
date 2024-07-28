@@ -3,15 +3,15 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:local="clr-namespace:ClockAlarm"
        x:Class="ClockAlarm.AppShell"
-       BackgroundColor="{StaticResource BackgroundColor}">
+       BackgroundColor="Black">
     <!-- Flyout Menu -->
     <Shell.FlyoutHeader>
         <Label Text="WakeUP Alarm App"
                FontSize="24"
                HorizontalOptions="Center"
                VerticalOptions="Center"
-               TextColor="{StaticResource PrimaryTextColor}"
-               BackgroundColor="{StaticResource BackgroundColor}" />
+               TextColor="White"
+               BackgroundColor="Black" />
     </Shell.FlyoutHeader>
 
     <!-- Define main content -->

@@ -2,28 +2,69 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ClockAlarm.MainPage"
-             Title="WakeUP Alarm App">
+             BackgroundColor="Black">
+    <ContentPage.Resources>
+        <Style x:Key="DayButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="White" />
+            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="WidthRequest" Value="40" />
+            <Setter Property="HeightRequest" Value="40" />
+            <Setter Property="CornerRadius" Value="20" />
+            <Setter Property="Margin" Value="2,0" />
+            <Setter Property="FontSize" Value="10" />
+        </Style>
+    </ContentPage.Resources>
+
     <StackLayout Padding="30">
-        <Label Text="Set New Alarm" FontSize="24" HorizontalOptions="Center" />
+        <Label Text="Set New Alarm"
+               FontSize="24"
+               HorizontalOptions="Center"
+               TextColor="White" />
+
         <TimePicker x:Name="alarmTimePicker" 
                     Time="07:00"
                     Format="t"
-                    HorizontalOptions="Center" />
+                    HorizontalOptions="Center"
+                    TextColor="White" />
+
+        <Label Text="Repeat On:"
+               FontSize="20"
+               HorizontalOptions="Center"
+               TextColor="White" 
+               Margin="0,20,0,10" />
+
+        <FlexLayout Wrap="NoWrap" JustifyContent="Center" AlignItems="Center" Direction="Row" Margin="0,0,0,10">
+            <Button x:Name="sundayButton" Text="Sun" Style="{StaticResource DayButtonStyle}" Clicked="OnDayButtonClicked" />
+            <Button x:Name="mondayButton" Text="Mon" Style="{StaticResource DayButtonStyle}" Clicked="OnDayButtonClicked" />
+            <Button x:Name="tuesdayButton" Text="Tue" Style="{StaticResource DayButtonStyle}" Clicked="OnDayButtonClicked" />
+            <Button x:Name="wednesdayButton" Text="Wed" Style="{StaticResource DayButtonStyle}" Clicked="OnDayButtonClicked" />
+            <Button x:Name="thursdayButton" Text="Thu" Style="{StaticResource DayButtonStyle}" Clicked="OnDayButtonClicked" />
+            <Button x:Name="fridayButton" Text="Fri" Style="{StaticResource DayButtonStyle}" Clicked="OnDayButtonClicked" />
+            <Button x:Name="saturdayButton" Text="Sat" Style="{StaticResource DayButtonStyle}" Clicked="OnDayButtonClicked" />
+        </FlexLayout>
+
         <Button Text="Add Alarm" 
                 Clicked="OnAddAlarmClicked"
                 HorizontalOptions="Center" 
                 Margin="0,20,0,0"
-                Style="{StaticResource GreenButtonStyle}" />
-        <Label Text="Alarms" FontSize="24" HorizontalOptions="Center" Margin="0,20,0,0" />
+                BackgroundColor="Green"
+                TextColor="White" />
+
+        <Label Text="Alarms"
+               FontSize="24"
+               HorizontalOptions="Center"
+               Margin="0,20,0,0"
+               TextColor="White" />
+
         <CollectionView x:Name="alarmsCollectionView" 
                         ItemsSource="{Binding Alarms}" 
                         SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Orientation="Horizontal" Padding="10">
-                        <Label Text="{Binding Time}" VerticalOptions="Center" />
+                        <Label Text="{Binding Time}" VerticalOptions="Center" TextColor="White" />
                         <Switch IsToggled="{Binding IsEnabled}" VerticalOptions="Center" />
-                        <Button Text="Delete" Clicked="OnDeleteAlarmClicked" CommandParameter="{Binding .}" Style="{StaticResource RedButtonStyle}" />
+                        <Button Text="Delete" Clicked="OnDeleteAlarmClicked" CommandParameter="{Binding .}" BackgroundColor="Red" TextColor="White" />
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
