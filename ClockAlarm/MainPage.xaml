@@ -6,7 +6,7 @@
     <ContentPage.Resources>
         <Style x:Key="DayButtonStyle" TargetType="Button">
             <Setter Property="BackgroundColor" Value="Gray" />
-            <Setter Property="TextColor" Value="White" />
+            <Setter Property="TextColor" Value="Black" />
             <Setter Property="WidthRequest" Value="40" />
             <Setter Property="HeightRequest" Value="40" />
             <Setter Property="CornerRadius" Value="20" />
@@ -61,10 +61,13 @@
                         SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout Orientation="Horizontal" Padding="10">
-                        <Label Text="{Binding Time}" VerticalOptions="Center" TextColor="White" />
-                        <Switch IsToggled="{Binding IsEnabled}" VerticalOptions="Center" />
-                        <Button Text="Delete" Clicked="OnDeleteAlarmClicked" CommandParameter="{Binding .}" BackgroundColor="Red" TextColor="White" />
+                    <StackLayout Orientation="Vertical" Padding="10">
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="{Binding Time}" VerticalOptions="Center" TextColor="White" />
+                            <Switch IsToggled="{Binding IsEnabled}" VerticalOptions="Center" />
+                            <Button Text="Delete" Clicked="OnDeleteAlarmClicked" CommandParameter="{Binding .}" BackgroundColor="Red" TextColor="White" />
+                        </StackLayout>
+                        <Label Text="{Binding DaysOfWeekDisplay}" VerticalOptions="Center" TextColor="White" />
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

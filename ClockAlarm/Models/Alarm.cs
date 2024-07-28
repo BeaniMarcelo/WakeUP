@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ClockAlarm.Models
 {
@@ -6,11 +7,14 @@ namespace ClockAlarm.Models
     {
         public DateTime Time { get; set; }
         public bool IsEnabled { get; set; }
-        public List<string> DaysOfWeek { get; set; } // New property to store the selected days of the week
+        public List<string> DaysOfWeek { get; set; }
 
-        public Alarm()
+        public string DaysOfWeekDisplay
         {
-            DaysOfWeek = new List<string>();
+            get
+            {
+                return DaysOfWeek != null && DaysOfWeek.Count > 0 ? string.Join(", ", DaysOfWeek) : "None";
+            }
         }
     }
 }
