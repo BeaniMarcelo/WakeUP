@@ -5,8 +5,8 @@
              BackgroundColor="Black">
     <ContentPage.Resources>
         <Style x:Key="DayButtonStyle" TargetType="Button">
-            <Setter Property="BackgroundColor" Value="White" />
-            <Setter Property="TextColor" Value="Black" />
+            <Setter Property="BackgroundColor" Value="Gray" />
+            <Setter Property="TextColor" Value="White" />
             <Setter Property="WidthRequest" Value="40" />
             <Setter Property="HeightRequest" Value="40" />
             <Setter Property="CornerRadius" Value="20" />

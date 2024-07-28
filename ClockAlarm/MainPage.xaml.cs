@@ -90,18 +90,20 @@ namespace ClockAlarm
 #endif
         }
 
-        private void OnDaySelected(object sender, EventArgs e)
+        private void OnDayButtonClicked(object sender, EventArgs e)
         {
             var button = sender as Button;
             if (button != null)
             {
-                if (button.BackgroundColor == Colors.Black)
+                if (button.BackgroundColor == Colors.Gray)
                 {
                     button.BackgroundColor = Colors.Green;
+                    button.TextColor = Colors.Black;
                 }
                 else
                 {
-                    button.BackgroundColor = Colors.Black;
+                    button.BackgroundColor = Colors.Gray;
+                    button.TextColor = Colors.White;
                 }
             }
         }
